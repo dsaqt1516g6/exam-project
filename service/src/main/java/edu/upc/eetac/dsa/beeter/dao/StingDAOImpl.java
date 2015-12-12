@@ -9,10 +9,11 @@ import java.sql.*;
 /**
  * Created by sergio on 9/09/15.
  */
-public class StingDAOImpl implements StingDAO {
+public class StingDAOImpl implements ExamDAO
+{
 
     @Override
-    public Sting createSting(String userid, String subject, String content) throws SQLException {
+    public Sting createSting(String userid, String subject, String text) throws SQLException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
@@ -30,7 +31,7 @@ public class StingDAOImpl implements StingDAO {
             stmt.setString(1, id);
             stmt.setString(2, userid);
             stmt.setString(3, subject);
-            stmt.setString(4, content);
+            stmt.setString(4, text);
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw e;
