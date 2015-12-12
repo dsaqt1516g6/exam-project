@@ -52,7 +52,7 @@ CREATE TABLE exam (
   id BINARY(16) NOT NULL,
   subject VARCHAR(100) NOT NULL,
   text VARCHAR(1000) NOT NULL,
-  statement_url char(36) NOT NULL,
+  image char(36) NOT NULL,
   user_id BINARY(16) NOT NULL,
   created_at TIMESTAMP NOT NULL default current_timestamp,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,

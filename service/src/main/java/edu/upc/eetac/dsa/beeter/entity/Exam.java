@@ -10,7 +10,7 @@ public class Exam
     private String subject;
     private String text;
     private long  created_at;
-    private String statement_url;
+    private String image;
 
     public String getId() {
         return id;
@@ -56,13 +56,13 @@ public class Exam
         this.created_at = created_at;
     }
 
-    public String getStatement_url()
+    public String getimage()
     {
-        return statement_url;
+        return image;
     }
 
-    public void setStatement_url(String statement_url)
+    public void setimage(String statement_url)
     {
-        this.statement_url = statement_url;
+        this.image = image;
     }
 }
