@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
  * Created by sergio on 13/09/15.
  */
 @Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
+@Retention(RetentionPolicy.CLASS)
 public @interface ETagCache {
 }

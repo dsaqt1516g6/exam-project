@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 import java.util.UUID;
 
 public class ExamDAOImpl implements ExamDAO
@@ -70,6 +72,7 @@ public class ExamDAOImpl implements ExamDAO
         PreparedStatement stmt       = null;
         try {
             connection = Database.getConnection();
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
 
             stmt = connection.prepareStatement(ExamDAOQuery.GET_EXAM_BY_ID);
             stmt.setString(1, id);
@@ -81,7 +84,7 @@ public class ExamDAOImpl implements ExamDAO
                 exam.setUserid(rs.getString("user_id"));
                 exam.setSubject(rs.getString("subject"));
                 exam.setText(rs.getString("text"));
-                exam.setimage(rs.getString("image"));
+                exam.setImage(prb.getString("image_base_url")+ rs.getString("image"));
                 exam.setCreated_at(rs.getTimestamp("created_at").getTime());
             }
         } catch (SQLException e) {
@@ -110,10 +113,12 @@ public class ExamDAOImpl implements ExamDAO
         UUID uuid = UUID.randomUUID();
         String filename = uuid.toString() + ".png";
         try {
+            PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
+
             ImageIO.write(
                     image,
                     "png",
-                    new File(app.getProperties().get("uploadFolder") + filename));
+                    new File(prb.getString("upload_folder") + filename));
         } catch (IOException e) {
             throw new InternalServerErrorException(
                     "Something has been wrong when converting the file.");

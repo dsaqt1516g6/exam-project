@@ -1,6 +1,8 @@
 package edu.upc.eetac.dsa.beeter;
 
+import org.glassfish.grizzly.http.server.HttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -36,7 +38,12 @@ public class Main {
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
-        return GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+
+        HttpHandler httpHandler = new StaticHttpHandler("./src/main/resources/images/");
+        httpServer.getServerConfiguration().addHttpHandler(httpHandler, "/images/");
+
+        return httpServer;
     }
 
     /**
@@ -46,6 +53,7 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+
         final HttpServer server = startServer();
     }
 }

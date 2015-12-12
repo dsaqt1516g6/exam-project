@@ -9,8 +9,8 @@ public class Exam
     private String userid;
     private String subject;
     private String text;
-    private long  created_at;
     private String image;
+    private long  created_at;
 
     public String getId() {
         return id;
@@ -61,7 +61,7 @@ public class Exam
         return image;
     }
 
-    public void setimage(String statement_url)
+    public void setImage(String image)
     {
         this.image = image;
     }

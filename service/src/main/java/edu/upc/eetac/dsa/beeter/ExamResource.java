@@ -44,11 +44,7 @@ public class ExamResource
             System.out.println("hola");
         }
         URI uri = new URI(uriInfo.getAbsolutePath().toString() + "/" + exam.getId());
+
         return Response.created(uri).type(BeeterMediaType.BEETER_EXAM).entity(exam).build();
     }
-
-
-
-
-
 }
