@@ -2,8 +2,8 @@ package edu.upc.eetac.dsa.beeter.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.upc.eetac.dsa.beeter.BeeterRootAPIResource;
+import edu.upc.eetac.dsa.beeter.ExamResource;
 import edu.upc.eetac.dsa.beeter.LoginResource;
-import edu.upc.eetac.dsa.beeter.StingResource;
 import edu.upc.eetac.dsa.beeter.UserResource;
 import org.glassfish.jersey.linking.Binding;
 import org.glassfish.jersey.linking.InjectLink;
@@ -18,18 +18,16 @@ import java.util.List;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
-    @InjectLinks({
+   @InjectLinks({
             @InjectLink(resource = BeeterRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Beeter Root API"),
-            @InjectLink(resource = StingResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-stings", title = "Current stings"),
+            //@InjectLink(resource = StingResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-stings", title = "Current stings"),
             @InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
-            @InjectLink(resource = StingResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-sting", title = "Create sting", type=MediaType.APPLICATION_FORM_URLENCODED),
+            @InjectLink(resource = ExamResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-exam", title = "Create exam", type= MediaType.APPLICATION_FORM_URLENCODED),
             @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "self user-profile", title = "User profile", bindings = @Binding(name = "id", value = "${instance.id}"))
     })
     private List<Link> links;
     private String id;
-    private String loginid;
-    private String email;
-    private String fullname;
+    private String name;
 
     public List<Link> getLinks() {
         return links;
@@ -47,27 +45,11 @@ public class User {
         this.id = id;
     }
 
-    public String getLoginid() {
-        return loginid;
+public String getname() {
+        return name;
     }
 
-    public void setLoginid(String loginid) {
-        this.loginid = loginid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setname(String name) {
+        this.name = name;
     }
 }

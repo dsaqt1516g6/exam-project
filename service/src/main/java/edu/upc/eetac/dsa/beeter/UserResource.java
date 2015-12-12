@@ -24,14 +24,14 @@ public class UserResource {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(BeeterMediaType.BEETER_AUTH_TOKEN)
-    public Response registerUser(@FormParam("loginid") String loginid, @FormParam("password") String password, @FormParam("email") String email, @FormParam("fullname") String fullname, @Context UriInfo uriInfo) throws URISyntaxException {
-        if(loginid == null || password == null || email == null || fullname == null)
+    public Response registerUser(@FormParam("name") String name, @FormParam("password") String password, @Context UriInfo uriInfo) throws URISyntaxException {
+        if(name == null || password == null)
             throw new BadRequestException("all parameters are mandatory");
         UserDAO userDAO = new UserDAOImpl();
         User user = null;
         AuthToken authToken = null;
         try{
-            user = userDAO.createUser(loginid, password, email, fullname);
+            user = userDAO.createUser(name, password);
             authToken = (new AuthTokenDAOImpl()).createAuthToken(user.getId());
         }catch (UserAlreadyExistsException e){
             throw new WebApplicationException("loginid already exists", Response.Status.CONFLICT);
@@ -57,7 +57,7 @@ public class UserResource {
         return user;
     }
 
-    @Path("/{id}")
+   /* @Path("/{id}")
     @PUT
     @Consumes(BeeterMediaType.BEETER_USER)
     @Produces(BeeterMediaType.BEETER_USER)
@@ -73,14 +73,14 @@ public class UserResource {
 
         UserDAO userDAO = new UserDAOImpl();
         try {
-           user = userDAO.updateProfile(userid, user.getEmail(), user.getFullname());
+           user = userDAO.updateProfile(password);
             if(user == null)
                 throw new NotFoundException("User with id = "+id+" doesn't exist");
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
         return user;
-    }
+    }*/
 
     @Path("/{id}")
     @DELETE

@@ -16,12 +16,12 @@ import java.sql.SQLException;
  */
 public class UserDAOImpl implements UserDAO {
     @Override
-    public User createUser(String loginid, String password, String email, String fullname) throws SQLException, UserAlreadyExistsException {
+    public User createUser(String name, String password) throws SQLException, UserAlreadyExistsException {
         Connection connection = null;
         PreparedStatement stmt = null;
         String id = null;
         try {
-            User user = getUserByLoginid(loginid);
+            User user = getUserByname(name);
             if (user != null)
                 throw new UserAlreadyExistsException();
 
@@ -39,10 +39,8 @@ public class UserDAOImpl implements UserDAO {
             stmt.close();
             stmt = connection.prepareStatement(UserDAOQuery.CREATE_USER);
             stmt.setString(1, id);
-            stmt.setString(2, loginid);
+            stmt.setString(2, name);
             stmt.setString(3, password);
-            stmt.setString(4, email);
-            stmt.setString(5, fullname);
             stmt.executeUpdate();
 
             stmt.close();
@@ -64,7 +62,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User updateProfile(String id, String email, String fullname) throws SQLException {
+    public User updateProfile(String id, String name) throws SQLException {
         User user = null;
 
         Connection connection = null;
@@ -73,9 +71,8 @@ public class UserDAOImpl implements UserDAO {
             connection = Database.getConnection();
 
             stmt = connection.prepareStatement(UserDAOQuery.UPDATE_USER);
-            stmt.setString(1, email);
-            stmt.setString(2, fullname);
-            stmt.setString(3, id);
+            stmt.setString(1, name);
+            stmt.setString(2, id);
 
             int rows = stmt.executeUpdate();
             if (rows == 1)
@@ -112,9 +109,7 @@ public class UserDAOImpl implements UserDAO {
             if (rs.next()) {
                 user = new User();
                 user.setId(rs.getString("id"));
-                user.setLoginid(rs.getString("loginid"));
-                user.setEmail(rs.getString("email"));
-                user.setFullname(rs.getString("fullname"));
+                user.setname(rs.getString("name"));
             }
         } catch (SQLException e) {
             // Relanza la excepción
@@ -130,7 +125,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User getUserByLoginid(String loginid) throws SQLException {
+    public User getUserByname(String name) throws SQLException {
         User user = null;
 
         Connection connection = null;
@@ -140,15 +135,13 @@ public class UserDAOImpl implements UserDAO {
 
 
             stmt = connection.prepareStatement(UserDAOQuery.GET_USER_BY_USERNAME);
-            stmt.setString(1, loginid);
+            stmt.setString(1, name);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 user = new User();
                 user.setId(rs.getString("id"));
-                user.setLoginid(rs.getString("loginid"));
-                user.setEmail(rs.getString("email"));
-                user.setFullname(rs.getString("fullname"));
+                user.setname(rs.getString("name"));
             }
         } catch (SQLException e) {
             throw e;

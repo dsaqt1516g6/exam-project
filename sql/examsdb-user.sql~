@@ -1,4 +1,4 @@
-drop user 'beeter'@'localhost';
-create user 'beeter'@'localhost' identified by 'beeter';
-grant all privileges on beeterdb.* to 'beeter'@'localhost';
+drop user 'exams'@'localhost';
+create user 'exams'@'localhost' identified by 'exams';
+grant all privileges on examsdb.* to 'exams'@'localhost';
 flush privileges;
