@@ -2,6 +2,7 @@ package edu.upc.eetac.dsa.beeter.dao;
 
 import edu.upc.eetac.dsa.beeter.db.Database;
 import edu.upc.eetac.dsa.beeter.entity.Exam;
+import edu.upc.eetac.dsa.beeter.entity.ExamCollection;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.InternalServerErrorException;
@@ -11,10 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.UUID;
@@ -84,7 +82,7 @@ public class ExamDAOImpl implements ExamDAO
                 exam.setUserid(rs.getString("user_id"));
                 exam.setSubject(rs.getString("subject"));
                 exam.setText(rs.getString("text"));
-                exam.setImage(prb.getString("image_base_url")+ rs.getString("image"));
+                exam.setImage(prb.getString("image_base_url")+ rs.getString("image")+".png");
                 exam.setCreated_at(rs.getTimestamp("created_at").getTime());
             }
         } catch (SQLException e) {
@@ -126,4 +124,67 @@ public class ExamDAOImpl implements ExamDAO
 
         return uuid;
     }
+
+    @Override
+    public ExamCollection getExams(long timestamp, boolean before) throws SQLException {
+        ExamCollection examCollection = new ExamCollection();
+
+        Connection connection = null;
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            if (before)
+                stmt = connection.prepareStatement(ExamDAOQuery.GET_EXAMS);
+            else
+                stmt = connection.prepareStatement(ExamDAOQuery.GET_EXAMS_AFTER);
+            stmt.setTimestamp(1, new Timestamp(timestamp));
+
+            ResultSet rs = stmt.executeQuery();
+            boolean first = true;
+            while (rs.next()) {
+                Exam exam = new Exam();
+                exam.setId(rs.getString("id"));
+                exam.setUserid(rs.getString("user_id"));
+                exam.setSubject(rs.getString("subject"));
+                exam.setText(rs.getString("text"));
+                exam.setImage(prb.getString("image_base_url") + rs.getString("image")+".png");
+                exam.setCreated_at(rs.getTimestamp("created_at").getTime());
+                if (first) {
+                    examCollection.setNewestTimestamp(exam.getCreated_at());
+                    first = false;
+                }
+                examCollection.setOldestTimestamp(exam.getCreated_at());
+                examCollection.getExams().add(exam);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+        return examCollection;
+    }
+
+    @Override
+    public boolean deleteExam(String id) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            stmt = connection.prepareStatement(ExamDAOQuery.DELETE_EXAM);
+            stmt.setString(1, id);
+
+            int rows = stmt.executeUpdate();
+            return (rows == 1);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
+
 }

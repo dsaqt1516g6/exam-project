@@ -56,7 +56,7 @@ public class Exam
         this.created_at = created_at;
     }
 
-    public String getimage()
+    public String getImage()
     {
         return image;
     }

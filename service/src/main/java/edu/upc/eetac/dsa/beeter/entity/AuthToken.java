@@ -7,7 +7,6 @@ import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLinks;
 
 import javax.ws.rs.core.Link;
-import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
@@ -18,9 +17,9 @@ public class AuthToken {
     @InjectLinks({
             @InjectLink(resource = BeeterRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "home", title = "Beeter Root API"),
             @InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "self login", title = "Login", type = BeeterMediaType.BEETER_AUTH_TOKEN),
-            @InjectLink(resource = StingResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-stings", title = "Current stings", type = BeeterMediaType.BEETER_STING_COLLECTION),
+            @InjectLink(resource = ExamResource.class, style = InjectLink.Style.ABSOLUTE, rel = "current-exams", title = "Current exams", type = BeeterMediaType.BEETER_EXAM_COLLECTION),
             @InjectLink(resource = LoginResource.class, style = InjectLink.Style.ABSOLUTE, rel = "logout", title = "Logout"),
-            @InjectLink(resource = StingResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-sting", title = "Create sting", type = BeeterMediaType.BEETER_STING),
+            @InjectLink(resource = ExamResource.class, style = InjectLink.Style.ABSOLUTE, rel = "create-exam", title = "Create exam", type = BeeterMediaType.BEETER_EXAM),
             @InjectLink(resource = UserResource.class, method = "getUser", style = InjectLink.Style.ABSOLUTE, rel = "user-profile", title = "User profile", type = BeeterMediaType.BEETER_USER, bindings = @Binding(name = "id", value = "${instance.userid}"))
     })
     private List<Link> links;
