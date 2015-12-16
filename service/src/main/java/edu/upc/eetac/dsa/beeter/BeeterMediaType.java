@@ -8,6 +8,7 @@ public interface BeeterMediaType {
     public final static String BEETER_USER = "application/vnd.dsa.exams.user+json";
     public final static String BEETER_STING = "application/vnd.dsa.exams.sting+json";
     public final static String BEETER_EXAM = "application/vnd.dsa.exams.exam+json";
+    public final static String BEETER_COMMENT = "application/vnd.dsa.exams.comment+json";
     public final static String BEETER_STING_COLLECTION = "application/vnd.dsa.exams.sting.collection+json";
     public final static String BEETER_EXAM_COLLECTION = "application/vnd.dsa.exams.exam.collection+json";
     public final static String BEETER_ROOT = "application/vnd.dsa.exams.root+json";
