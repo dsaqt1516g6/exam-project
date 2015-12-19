@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CorrectionCollection
+public class CorrectionCommentCollection
 {
     private long newestTimestamp;
     private long oldestTimestamp;
-    private List<Correction> corrections = new ArrayList<>();
-
+    private List<CorrectionComment> correctioncomments = new ArrayList<>();
 
     public long getNewestTimestamp()
     {
@@ -33,13 +32,13 @@ public class CorrectionCollection
         this.oldestTimestamp = oldestTimestamp;
     }
 
-    public List<Correction> getCorrections()
+    public List<CorrectionComment> getCorrectioncomments()
     {
-        return corrections;
+        return correctioncomments;
     }
 
-    public void setCorrections(List<Correction> corrections)
+    public void setCorrectioncomments(List<CorrectionComment> correctioncomments)
     {
-        this.corrections = corrections;
+        this.correctioncomments = correctioncomments;
     }
 }
