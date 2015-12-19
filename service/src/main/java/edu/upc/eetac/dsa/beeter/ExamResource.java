@@ -50,7 +50,6 @@ public class ExamResource
     }
 
 
-
     @GET
     @Produces(BeeterMediaType.BEETER_EXAM_COLLECTION)
     public ExamCollection getExams(@QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {

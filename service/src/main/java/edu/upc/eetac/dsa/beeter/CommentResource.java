@@ -4,6 +4,7 @@ import edu.upc.eetac.dsa.beeter.dao.CommentDAO;
 import edu.upc.eetac.dsa.beeter.dao.CommentDAOImpl;
 import edu.upc.eetac.dsa.beeter.entity.AuthToken;
 import edu.upc.eetac.dsa.beeter.entity.Comment;
+import edu.upc.eetac.dsa.beeter.entity.CommentCollection;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
@@ -11,11 +12,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
-@Path("exam/comment")
+@Path("exam")
 public class CommentResource
 {       @Context
         private SecurityContext securityContext;
-    @Path("/{id}")
+    @Path("/{id}/comment")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(BeeterMediaType.BEETER_COMMENT)
@@ -35,5 +36,19 @@ public class CommentResource
         return Response.created(uri).type(BeeterMediaType.BEETER_COMMENT).entity(comment).build();
     }
 
+    @Path("/comment")
+    @GET
+    @Produces(BeeterMediaType.BEETER_COMMENT_COLLECTION)
+    public CommentCollection getExams(@QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
+        CommentCollection commentCollection = null;
+        CommentDAO commentDAO = new CommentDAOImpl();
+        try {
+            if (before && timestamp == 0) timestamp = System.currentTimeMillis();
+            commentCollection = commentDAO.getComments(timestamp, before);
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return commentCollection;
+    }
 
 }

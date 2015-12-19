@@ -62,7 +62,7 @@ CREATE TABLE exam (
 
 CREATE TABLE correction (
   id BINARY(16),
-  correction_url char (36) NOT NULL,
+  image_correction char (36) NOT NULL,
   text VARCHAR(1000) NOT NULL,
   user_id BINARY(16) NOT NULL,
   exam_id BINARY(16) NOT NULL,
