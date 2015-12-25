@@ -1,5 +1,6 @@
 package edu.upc.eetac.dsa.beeter;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -17,6 +18,7 @@ public class BeeterResourceConfig extends ResourceConfig {
         register(RolesAllowedDynamicFeature.class);
         register(DeclarativeLinkingFeature.class);
         register(MultiPartFeature.class);
+        register(JacksonFeature.class);
         property(ServerProperties.TRACING, "ALL");
         property(ServerProperties.TRACING_THRESHOLD, "VERBOSE");
     }

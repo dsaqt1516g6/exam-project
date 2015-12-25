@@ -6,13 +6,17 @@ import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 public class Database {
     private static Database instance = null;
     private DataSource ds;
 
     private Database() {
-        HikariConfig config = new HikariConfig(Database.class.getClassLoader().getResource("hikari.properties").getFile());
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
+
+        HikariConfig config = new HikariConfig(prb.getString("hikari_config_path"));
         ds = new HikariDataSource(config);
     }
 

@@ -2,3 +2,4 @@ beeter.context = http://147.83.7.205:8089
 upload_folder  = /home/dsa3/exam-project/service/src/main/resources/images
 upload_folder_correction  = /home/dsa3/exam-project/service/src/main/resources/images_correction
 image_base_url = http://147.83.7.205:8089/images/
+hikari_config_path=/home/dsa3/exam-project/service/src/main/resources/hikari.properties
