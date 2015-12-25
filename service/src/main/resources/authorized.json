@@ -12,11 +12,31 @@
     "methods": ["GET"]
   },
   {
-    "path": "(?i)stings/?([0-9a-f]{32})?",
+    "path": "login",
+    "methods": ["POST"]
+  },
+  {
+    "path": "(?i)exam/([0-9a-f]{32})?",
     "methods": ["GET"]
   },
   {
-    "path": "login",
-    "methods": ["POST"]
+    "path": "(?i)exam",
+    "methods": ["GET"]
+  },
+  {
+    "path": "(?i)exam/comment",
+    "methods": ["GET"]
+  },
+  {
+    "path": "(?i)exam/([0-9a-f]{32})?/correction",
+    "methods": ["GET"]
+  },
+  {
+    "path": "(?i)exam/([0-9a-f]{32})?/correction/([0-9a-f]{32})?",
+    "methods": ["GET"]
+  },
+  {
+    "path": "(?i)exam/([0-9a-f]{32})?/correction/comment",
+    "methods": ["GET"]
   }
 ]

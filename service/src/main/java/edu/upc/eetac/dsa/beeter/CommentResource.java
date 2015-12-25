@@ -12,11 +12,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 
-@Path("exam")
+@Path("exam/{id}/comment")
 public class CommentResource
 {       @Context
         private SecurityContext securityContext;
-    @Path("/{id}/comment")
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(BeeterMediaType.BEETER_COMMENT)
@@ -36,7 +35,7 @@ public class CommentResource
         return Response.created(uri).type(BeeterMediaType.BEETER_COMMENT).entity(comment).build();
     }
 
-    @Path("/comment")
+
     @GET
     @Produces(BeeterMediaType.BEETER_COMMENT_COLLECTION)
     public CommentCollection getComments(@QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
