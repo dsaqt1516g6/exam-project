@@ -7,9 +7,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-/**
- * Created by sergio on 7/09/15.
- */
 public class Database {
     private static Database instance = null;
     private DataSource ds;

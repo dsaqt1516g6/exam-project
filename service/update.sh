@@ -13,5 +13,4 @@ cp /home/dsa3/exam-project/service/src/main/resources/beeter.properties.prod /ho
 # Compilamos el proyecto
 mvn clean compile assembly:single
 
-# Ahora sólo falta reiniciar el servidor
-runuser -l root -c 'service exam-service restart'
+# Ahora sólo falta reiniciar el servidor executando "service exam-service restart" desde un usuario sudo
