@@ -7,6 +7,9 @@ git reset --hard
 # Actualizamos en proyecto
 git pull origin master
 
+# Hacemos que el update.sh sea ejecutable
+chmod +x update.sh
+
 # Copiamos el fichero de configuración de servidor como si fuese el local
 cp /home/dsa3/exam-project/service/src/main/resources/beeter.properties.prod /home/dsa3/exam-project/service/src/main/resources/beeter.properties
 
