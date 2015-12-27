@@ -111,7 +111,7 @@ CREATE TABLE likes (
   liked_id  BINARY(16) NOT NULL,
   type ENUM ('exam', 'correction'),
   created_at TIMESTAMP NOT NULL default current_timestamp,
-  UNIQUE KEY uk_ult (user_id, liked_id, type)
+  UNIQUE KEY uk_ult (user_id, liked_id, type),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
