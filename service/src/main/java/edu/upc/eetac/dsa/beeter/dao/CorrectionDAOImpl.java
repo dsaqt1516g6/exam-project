@@ -75,6 +75,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
             stmt = connection.prepareStatement(CorrectionDAOQuery.GET_CORRECTION_BY_ID);
             stmt.setString(1, id);
 
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 correction = new Correction();
@@ -82,6 +83,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
                 correction.setUser_id(rs.getString("user_id"));
                 correction.setExam_id(rs.getString("exam_id"));
                 correction.setText(rs.getString("text"));
+                correction.setRating(rs.getString("rating"));
                 correction.setImage_correction(prb.getString("image_base_url") + rs.getString("image_correction") + ".png");
                 correction.setCreated_at(rs.getTimestamp("created_at").getTime());
             }
@@ -126,7 +128,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
     }
 
     @Override
-    public CorrectionCollection getCorrections(long timestamp, boolean before) throws SQLException {
+    public CorrectionCollection getCorrections(String exam_id,long timestamp, boolean before) throws SQLException {
         CorrectionCollection correctionCollection = new CorrectionCollection();
 
         Connection connection = null;
@@ -140,6 +142,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
             else
                 stmt = connection.prepareStatement(CorrectionDAOQuery.GET_CORRECTIONS_AFTER);
             stmt.setTimestamp(1, new Timestamp(timestamp));
+            stmt.setString(2, exam_id);
 
             ResultSet rs = stmt.executeQuery();
             boolean first = true;
@@ -149,6 +152,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
                 correction.setUser_id(rs.getString("user_id"));
                 correction.setExam_id(rs.getString("exam_id"));
                 correction.setText(rs.getString("text"));
+                correction.setRating(rs.getString("rating"));
                 correction.setImage_correction(prb.getString("image_base_url") + rs.getString("image_correction") + ".png");
                 correction.setCreated_at(rs.getTimestamp("created_at").getTime());
                 if (first) {

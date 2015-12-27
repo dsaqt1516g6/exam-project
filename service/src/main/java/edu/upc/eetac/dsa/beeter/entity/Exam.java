@@ -10,6 +10,7 @@ public class Exam
     private String subject;
     private String text;
     private String image;
+    private String rating;
     private long  created_at;
 
     public String getId() {
@@ -64,5 +65,15 @@ public class Exam
     public void setImage(String image)
     {
         this.image = image;
+    }
+
+    public String getRating()
+    {
+        return rating;
+    }
+
+    public void setRating(String rating)
+    {
+        this.rating = rating;
     }
 }

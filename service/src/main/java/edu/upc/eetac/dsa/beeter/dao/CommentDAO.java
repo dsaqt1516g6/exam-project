@@ -9,5 +9,5 @@ public interface CommentDAO
 {
     public Comment createComment(String user_id, String exam_id, String text) throws SQLException;
     public Comment getCommentById(String id) throws SQLException;
-    public CommentCollection getComments(long timestamp, boolean before) throws SQLException;
+    public CommentCollection getComments(String id, long timestamp, boolean before) throws SQLException;
 }

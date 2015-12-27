@@ -29,6 +29,7 @@ public class ExamDAOImpl implements ExamDAO
         PreparedStatement stmt       = null;
         String            id         = null;
         try {
+            //this.guardSubjectExists(subject);
             connection = Database.getConnection();
 
             stmt = connection.prepareStatement(UserDAOQuery.UUID);
@@ -61,6 +62,11 @@ public class ExamDAOImpl implements ExamDAO
         return getExamById(id);
     }
 
+    private void guardSubjectExists(String subject)
+    {
+
+    }
+
     @Override
     public Exam getExamById(String id) throws SQLException
     {
@@ -81,6 +87,7 @@ public class ExamDAOImpl implements ExamDAO
                 exam.setId(rs.getString("id"));
                 exam.setUserid(rs.getString("user_id"));
                 exam.setSubject(rs.getString("subject"));
+                exam.setRating(rs.getString("rating"));
                 exam.setText(rs.getString("text"));
                 exam.setImage(prb.getString("image_base_url")+ rs.getString("image")+".png");
                 exam.setCreated_at(rs.getTimestamp("created_at").getTime());
@@ -149,6 +156,7 @@ public class ExamDAOImpl implements ExamDAO
                 exam.setUserid(rs.getString("user_id"));
                 exam.setSubject(rs.getString("subject"));
                 exam.setText(rs.getString("text"));
+                exam.setRating(rs.getString("rating"));
                 exam.setImage(prb.getString("image_base_url") + rs.getString("image")+".png");
                 exam.setCreated_at(rs.getTimestamp("created_at").getTime());
                 if (first) {

@@ -24,7 +24,7 @@
     "methods": ["GET"]
   },
   {
-    "path": "(?i)exam/comment",
+    "path": "(?i)exam/([0-9a-f]{32})?/comment",
     "methods": ["GET"]
   },
   {
@@ -36,7 +36,7 @@
     "methods": ["GET"]
   },
   {
-    "path": "(?i)exam/([0-9a-f]{32})?/correction/comment",
+    "path": "(?i)exam/([0-9a-f]{32})?/correction/([0-9a-f]{32})?/comment",
     "methods": ["GET"]
   }
 ]

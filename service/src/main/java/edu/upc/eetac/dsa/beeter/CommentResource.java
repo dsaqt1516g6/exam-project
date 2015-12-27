@@ -14,18 +14,21 @@ import java.sql.SQLException;
 
 @Path("exam/{id}/comment")
 public class CommentResource
-{       @Context
-        private SecurityContext securityContext;
+{
+    @Context
+    private SecurityContext securityContext;
+
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(BeeterMediaType.BEETER_COMMENT)
     public Response createComment(@PathParam("id") String id, @FormParam("text") String text, @Context UriInfo uriInfo) throws URISyntaxException
     {
-        if (id == null || text == null)
+        if (id == null || text == null) {
             throw new BadRequestException("all parameters are mandatory");
+        }
         CommentDAO commentDAO = new CommentDAOImpl();
-        Comment comment = null;
-        AuthToken authToken = null;
+        Comment    comment    = null;
+        AuthToken  authToken  = null;
         try {
             comment = commentDAO.createComment(securityContext.getUserPrincipal().getName(), id, text);
         } catch (SQLException e) {
@@ -38,12 +41,15 @@ public class CommentResource
 
     @GET
     @Produces(BeeterMediaType.BEETER_COMMENT_COLLECTION)
-    public CommentCollection getComments(@QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
+    public CommentCollection getComments(@PathParam("id") String id, @QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before)
+    {
         CommentCollection commentCollection = null;
-        CommentDAO commentDAO = new CommentDAOImpl();
+        CommentDAO        commentDAO        = new CommentDAOImpl();
         try {
-            if (before && timestamp == 0) timestamp = System.currentTimeMillis();
-            commentCollection = commentDAO.getComments(timestamp, before);
+            if (before && timestamp == 0) {
+                timestamp = System.currentTimeMillis();
+            }
+            commentCollection = commentDAO.getComments(id,timestamp, before);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }

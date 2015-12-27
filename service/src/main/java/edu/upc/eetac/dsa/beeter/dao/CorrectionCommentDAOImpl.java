@@ -75,7 +75,7 @@ public class CorrectionCommentDAOImpl implements CorrectionCommentDAO
         }
 
     @Override
-    public CorrectionCommentCollection getComments(long timestamp, boolean before) throws SQLException {
+    public CorrectionCommentCollection getComments(String correction_id, long timestamp, boolean before) throws SQLException {
         CorrectionCommentCollection commentCollection = new CorrectionCommentCollection();
         CorrectionComment correction_comment = null;
         Connection connection = null;
@@ -88,7 +88,7 @@ public class CorrectionCommentDAOImpl implements CorrectionCommentDAO
             else
                 stmt = connection.prepareStatement(CorrectionCommentDAOQuery.GET_CORRECTION_COMMENTS_AFTER);
             stmt.setTimestamp(1, new Timestamp(timestamp));
-
+            stmt.setString(2, correction_id);
             ResultSet rs = stmt.executeQuery();
             boolean first = true;
             while (rs.next()) {

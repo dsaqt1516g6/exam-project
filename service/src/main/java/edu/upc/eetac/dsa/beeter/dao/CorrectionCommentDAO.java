@@ -9,5 +9,5 @@ public interface CorrectionCommentDAO
 {
     public CorrectionComment createCorrectionComment(String user_id, String exam_id, String correction_id,String text) throws SQLException;
     public CorrectionComment getCorrectionCommentById(String id) throws SQLException;
-    public CorrectionCommentCollection getComments(long timestamp, boolean before) throws SQLException;
+    public CorrectionCommentCollection getComments(String id, long timestamp, boolean before) throws SQLException;
 }

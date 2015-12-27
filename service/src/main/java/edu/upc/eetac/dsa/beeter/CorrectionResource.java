@@ -51,12 +51,12 @@ public class CorrectionResource
 
     @GET
     @Produces(BeeterMediaType.BEETER_CORRECTION_COLLECTION)
-    public CorrectionCollection getCorrections(@QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
+    public CorrectionCollection getCorrections(@PathParam("examid") String examid, @QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
         CorrectionCollection correctionCollection = null;
         CorrectionDAO CorrectionDAO = new CorrectionDAOImpl();
         try {
             if (before && timestamp == 0) timestamp = System.currentTimeMillis();
-            correctionCollection = CorrectionDAO.getCorrections(timestamp, before);
+            correctionCollection = CorrectionDAO.getCorrections(examid, timestamp, before);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }

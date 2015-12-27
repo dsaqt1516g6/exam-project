@@ -73,7 +73,7 @@ public class CommentDAOImpl implements CommentDAO
     }
 
     @Override
-    public CommentCollection getComments(long timestamp, boolean before) throws SQLException {
+    public CommentCollection getComments(String exam_id, long timestamp, boolean before) throws SQLException {
         CommentCollection commentCollection = new CommentCollection();
 
         Connection connection = null;
@@ -86,6 +86,7 @@ public class CommentDAOImpl implements CommentDAO
             else
                 stmt = connection.prepareStatement(CommentDAOQuery.GET_COMMENTS_AFTER);
             stmt.setTimestamp(1, new Timestamp(timestamp));
+            stmt.setString(2, exam_id);
 
             ResultSet rs = stmt.executeQuery();
             boolean first = true;

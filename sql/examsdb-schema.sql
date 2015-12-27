@@ -66,7 +66,6 @@ CREATE TABLE correction (
   text VARCHAR(1000) NOT NULL,
   user_id BINARY(16) NOT NULL,
   exam_id BINARY(16) NOT NULL,
-  rating INT(10) NOT NULL DEFAULT 0,
   created_at TIMESTAMP NOT NULL default current_timestamp,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
   FOREIGN KEY (exam_id) REFERENCES exam (id) ON DELETE CASCADE,
@@ -105,3 +104,15 @@ CREATE TABLE comment_correction (
   FOREIGN KEY (exam_id) REFERENCES exam (id) ON DELETE CASCADE,
   FOREIGN KEY (correction_id) REFERENCES correction (id) ON DELETE CASCADE
 );
+
+CREATE TABLE likes (
+  id BINARY(16) NOT NULL,
+  user_id BINARY(16) NOT NULL,
+  liked_id  BINARY(16) NOT NULL,
+  type ENUM ('exam', 'correction'),
+  created_at TIMESTAMP NOT NULL default current_timestamp,
+  UNIQUE KEY uk_ult (user_id, liked_id, type)
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+

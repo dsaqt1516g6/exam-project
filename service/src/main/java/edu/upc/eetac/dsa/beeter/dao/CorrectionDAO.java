@@ -10,7 +10,7 @@ public interface CorrectionDAO
 {
     public Correction createCorrection(String user_id, String exam_id, String text, InputStream image) throws SQLException;
     public Correction getCorrectionById(String id) throws SQLException;
-    public CorrectionCollection getCorrections(long timestamp, boolean before) throws SQLException;
+    public CorrectionCollection getCorrections(String id, long timestamp, boolean before) throws SQLException;
     //public Exam updateExam(String id, String subject, String content) throws SQLException;
     public boolean deleteCorrection(String id) throws SQLException;
 }
