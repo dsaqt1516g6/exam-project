@@ -22,7 +22,8 @@ public class UserResource {
     private SecurityContext securityContext;
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+
+    @Consumes(BeeterMediaType.BEETER_USER)
     @Produces(BeeterMediaType.BEETER_AUTH_TOKEN)
     public Response registerUser(@FormParam("name") String name, @FormParam("password") String password, @Context UriInfo uriInfo) throws URISyntaxException {
         if(name == null || password == null)
