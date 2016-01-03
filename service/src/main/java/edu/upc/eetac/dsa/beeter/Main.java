@@ -39,9 +39,15 @@ public class Main {
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
         HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(getBaseURI()), rc);
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
+        String imagesFolder = prb.getString("upload_folder");
+        String imagesCorrectionsFolder = prb.getString("upload_folder_correction");
 
-        HttpHandler httpHandler = new StaticHttpHandler("./src/main/resources/images/");
+        HttpHandler httpHandler = new StaticHttpHandler(imagesFolder);
         httpServer.getServerConfiguration().addHttpHandler(httpHandler, "/images/");
+
+        HttpHandler correctionsHttpHandler = new StaticHttpHandler(imagesCorrectionsFolder);
+        httpServer.getServerConfiguration().addHttpHandler(correctionsHttpHandler, "/images-correction/");
 
         return httpServer;
     }
