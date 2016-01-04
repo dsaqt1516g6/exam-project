@@ -47,7 +47,7 @@ public class Main {
         httpServer.getServerConfiguration().addHttpHandler(httpHandler, "/images/");
 
         HttpHandler correctionsHttpHandler = new StaticHttpHandler(imagesCorrectionsFolder);
-        httpServer.getServerConfiguration().addHttpHandler(correctionsHttpHandler, "/images-correction/");
+        httpServer.getServerConfiguration().addHttpHandler(correctionsHttpHandler, "/images-corrections/");
 
         return httpServer;
     }
