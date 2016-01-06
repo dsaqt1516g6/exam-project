@@ -11,6 +11,7 @@ public class Exam
     private String text;
     private String image;
     private String rating;
+    private String creator;
     private long  created_at;
 
     public String getId() {
@@ -75,5 +76,15 @@ public class Exam
     public void setRating(String rating)
     {
         this.rating = rating;
+    }
+
+    public String getCreator()
+    {
+        return creator;
+    }
+
+    public void setCreator(String creator)
+    {
+        this.creator = creator;
     }
 }

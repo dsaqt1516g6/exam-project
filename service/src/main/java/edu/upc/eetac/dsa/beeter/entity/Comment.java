@@ -9,6 +9,7 @@ public class Comment
     private String text;
     private String exam_id;
     private String user_id;
+    private String creator;
     private long created_at;
 
     /*public Comment(String id, String text, String exam_id, String user_id)
@@ -66,5 +67,15 @@ public class Comment
     public void setCreated_at(long created_at)
     {
         this.created_at = created_at;
+    }
+
+    public String getCreator()
+    {
+        return creator;
+    }
+
+    public void setCreator(String creator)
+    {
+        this.creator = creator;
     }
 }

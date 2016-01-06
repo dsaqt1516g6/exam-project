@@ -10,6 +10,7 @@ public class CorrectionComment
     private String exam_id;
     private String user_id;
     private String correction_id;
+    private String creator;
     private long created_at;
 
     public String getId()
@@ -70,5 +71,15 @@ public class CorrectionComment
     public void setCreated_at(long created_at)
     {
         this.created_at = created_at;
+    }
+
+    public String getCreator()
+    {
+        return creator;
+    }
+
+    public void setCreator(String creator)
+    {
+        this.creator = creator;
     }
 }

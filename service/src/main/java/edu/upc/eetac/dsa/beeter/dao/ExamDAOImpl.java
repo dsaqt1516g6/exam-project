@@ -88,6 +88,7 @@ public class ExamDAOImpl implements ExamDAO
                 exam.setUserid(rs.getString("user_id"));
                 exam.setSubject(rs.getString("subject"));
                 exam.setRating(rs.getString("rating"));
+                exam.setCreator(rs.getString("name_creator"));
                 exam.setText(rs.getString("text"));
                 exam.setImage(prb.getString("image_base_url")+ rs.getString("image")+".png");
                 exam.setCreated_at(rs.getTimestamp("created_at").getTime());
@@ -157,6 +158,7 @@ public class ExamDAOImpl implements ExamDAO
                 exam.setSubject(rs.getString("subject"));
                 exam.setText(rs.getString("text"));
                 exam.setRating(rs.getString("rating"));
+                exam.setCreator(rs.getString("name_creator"));
                 exam.setImage(prb.getString("image_base_url") + rs.getString("image")+".png");
                 exam.setCreated_at(rs.getTimestamp("created_at").getTime());
                 if (first) {
@@ -193,6 +195,51 @@ public class ExamDAOImpl implements ExamDAO
             if (stmt != null) stmt.close();
             if (connection != null) connection.close();
         }
+    }
+
+    @Override
+    public ExamCollection getExamBySubject(String subject,long timestamp, boolean before) throws SQLException {
+        ExamCollection examCollection = new ExamCollection();
+
+        Connection connection = null;
+        PropertyResourceBundle prb = (PropertyResourceBundle) ResourceBundle.getBundle("beeter");
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
+
+            if (before)
+                stmt = connection.prepareStatement(ExamDAOQuery.GET_EXAM_BY_SUBJECT);
+            else
+                stmt = connection.prepareStatement(ExamDAOQuery.GET_EXAM_BY_SUBJECT_AFTER);
+            stmt.setTimestamp(1, new Timestamp(timestamp));
+            stmt.setString(2, subject);
+
+            ResultSet rs = stmt.executeQuery();
+            boolean first = true;
+            while (rs.next()) {
+                Exam exam = new Exam();
+                exam.setId(rs.getString("id"));
+                exam.setUserid(rs.getString("user_id"));
+                exam.setSubject(rs.getString("subject"));
+                exam.setText(rs.getString("text"));
+                exam.setRating(rs.getString("rating"));
+                exam.setCreator(rs.getString("name_creator"));
+                exam.setImage(prb.getString("image_base_url") + rs.getString("image")+".png");
+                exam.setCreated_at(rs.getTimestamp("created_at").getTime());
+                if (first) {
+                    examCollection.setNewestTimestamp(exam.getCreated_at());
+                    first = false;
+                }
+                examCollection.setOldestTimestamp(exam.getCreated_at());
+                examCollection.getExams().add(exam);
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+        return examCollection;
     }
 
 }

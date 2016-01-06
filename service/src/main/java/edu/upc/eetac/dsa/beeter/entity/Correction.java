@@ -11,6 +11,7 @@ public class Correction
     private String rating;
     private String text;
     private String image_correction;
+    private String creator;
     private long  created_at;
 
     public String getId()
@@ -81,5 +82,15 @@ public class Correction
     public void setCreated_at(long created_at)
     {
         this.created_at = created_at;
+    }
+
+    public String getCreator()
+    {
+        return creator;
+    }
+
+    public void setCreator(String creator)
+    {
+        this.creator = creator;
     }
 }

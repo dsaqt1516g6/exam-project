@@ -84,6 +84,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
                 correction.setExam_id(rs.getString("exam_id"));
                 correction.setText(rs.getString("text"));
                 correction.setRating(rs.getString("rating"));
+                correction.setCreator(rs.getString("name_creator"));
                 correction.setImage_correction(prb.getString("image_corrections_base_url") + rs.getString("image_correction") + ".png");
                 correction.setCreated_at(rs.getTimestamp("created_at").getTime());
             }
@@ -153,6 +154,7 @@ public class CorrectionDAOImpl implements CorrectionDAO
                 correction.setExam_id(rs.getString("exam_id"));
                 correction.setText(rs.getString("text"));
                 correction.setRating(rs.getString("rating"));
+                correction.setCreator(rs.getString("name_creator"));
                 correction.setImage_correction(prb.getString("image_corrections_base_url") + rs.getString("image_correction") + ".png");
                 correction.setCreated_at(rs.getTimestamp("created_at").getTime());
                 if (first) {

@@ -99,6 +99,20 @@ public class ExamResource
         }
     }
 
+    @Path("/subject/{subject}")
+    @GET
+    @Produces(BeeterMediaType.BEETER_CORRECTION_COLLECTION)
+    public ExamCollection getExamsBySubject(@PathParam("subject") String subject, @QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
+        ExamCollection examCollection = null;
+        ExamDAO examDAO = new ExamDAOImpl();
+        try {
+            if (before && timestamp == 0) timestamp = System.currentTimeMillis();
+            examCollection = examDAO.getExamBySubject(subject, timestamp, before);
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+        return examCollection;
+    }
     @Path("/{id}")
     @DELETE
     public void deleteExam(@PathParam("id") String id) {

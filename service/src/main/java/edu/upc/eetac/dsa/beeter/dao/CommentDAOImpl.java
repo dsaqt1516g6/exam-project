@@ -60,6 +60,7 @@ public class CommentDAOImpl implements CommentDAO
                 comment.setId(rs.getString("id"));
                 comment.setUser_id(rs.getString("user_id"));
                 comment.setExam_id(rs.getString("exam_id"));
+                comment.setCreator(rs.getString("name_creator"));
                 comment.setText(rs.getString("text"));
                 comment.setCreated_at(rs.getTimestamp("created_at").getTime());
             }
@@ -95,6 +96,7 @@ public class CommentDAOImpl implements CommentDAO
                 comment.setId(rs.getString("id"));
                 comment.setUser_id(rs.getString("user_id"));
                 comment.setExam_id(rs.getString("exam_id"));
+                comment.setCreator(rs.getString("name_creator"));
                 comment.setText(rs.getString("text"));
                 comment.setCreated_at(rs.getTimestamp("created_at").getTime());
                 if (first) {

@@ -63,6 +63,7 @@ public class CorrectionCommentDAOImpl implements CorrectionCommentDAO
                     correction_comment.setExam_id(rs.getString("exam_id"));
                     correction_comment.setCorrection_id(rs.getString("correction_id"));
                     correction_comment.setText(rs.getString("text"));
+                    correction_comment.setCreator(rs.getString("name_creator"));
                     correction_comment.setCreated_at(rs.getTimestamp("created_at").getTime());
                 }
             } catch (SQLException e) {
@@ -98,6 +99,7 @@ public class CorrectionCommentDAOImpl implements CorrectionCommentDAO
                 correction_comment.setExam_id(rs.getString("exam_id"));
                 correction_comment.setCorrection_id(rs.getString("correction_id"));
                 correction_comment.setText(rs.getString("text"));
+                correction_comment.setCreator(rs.getString("name_creator"));
                 correction_comment.setCreated_at(rs.getTimestamp("created_at").getTime());
                 if (first) {
                     commentCollection.setNewestTimestamp(correction_comment.getCreated_at());
