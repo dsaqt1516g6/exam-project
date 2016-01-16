@@ -2,6 +2,8 @@ package edu.upc.eetac.dsa.beeter;
 
 import edu.upc.eetac.dsa.beeter.dao.CorrectionDAO;
 import edu.upc.eetac.dsa.beeter.dao.CorrectionDAOImpl;
+import edu.upc.eetac.dsa.beeter.dao.UserDAO;
+import edu.upc.eetac.dsa.beeter.dao.UserDAOImpl;
 import edu.upc.eetac.dsa.beeter.entity.AuthToken;
 import edu.upc.eetac.dsa.beeter.entity.Correction;
 import edu.upc.eetac.dsa.beeter.entity.CorrectionCollection;
@@ -102,10 +104,12 @@ public class CorrectionResource
     @DELETE
     public void deleteCorrection(@PathParam("id") String id) {
         String userid = securityContext.getUserPrincipal().getName();
+        UserDAO userDAO = new UserDAOImpl();
         CorrectionDAO correctionDAO = new CorrectionDAOImpl();
         try {
             String ownerid = correctionDAO.getCorrectionById(id).getUser_id();
-            if (!userid.equals(ownerid))
+            String role = userDAO.getRoleUserById(id).getRole();
+            if (!userid.equals(ownerid)|| !role.equals("admin"))
                 throw new ForbiddenException("operation not allowed");
             if (!correctionDAO.deleteCorrection(id))
                 throw new NotFoundException("User with id = " + id + " doesn't exist");

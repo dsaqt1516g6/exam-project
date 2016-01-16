@@ -203,4 +203,42 @@ public class UserDAOImpl implements UserDAO {
             if (connection != null) connection.close();
         }
     }
+
+    @Override
+    public User getRoleUserById(String id) throws SQLException {
+        // Modelo a devolver
+        User user = null;
+
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            // Obtiene la conexión del DataSource
+            connection = Database.getConnection();
+
+            // Prepara la consulta
+            stmt = connection.prepareStatement(UserDAOQuery.GET_ROLE_USER_BY_ID);
+            // Da valor a los parámetros de la consulta
+            stmt.setString(1, id);
+
+
+            // Ejecuta la consulta
+            ResultSet rs = stmt.executeQuery();
+            // Procesa los resultados
+            if (rs.next()) {
+                user = new User();
+                user.setId(rs.getString("id"));
+                user.setRole(rs.getString("role"));
+            }
+        } catch (SQLException e) {
+            // Relanza la excepción
+            throw e;
+        } finally {
+            // Libera la conexión
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+
+        // Devuelve el modelo
+        return user;
+    }
 }

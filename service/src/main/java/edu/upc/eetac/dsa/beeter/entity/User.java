@@ -28,6 +28,7 @@ public class User {
     private List<Link> links;
     private String id;
     private String name;
+    private String role;
 
     public List<Link> getLinks() {
         return links;
@@ -51,5 +52,15 @@ public String getname() {
 
     public void setname(String name) {
         this.name = name;
+    }
+
+    public String getRole()
+    {
+        return role;
+    }
+
+    public void setRole(String role)
+    {
+        this.role = role;
     }
 }
