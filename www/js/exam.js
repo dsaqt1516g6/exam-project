@@ -678,8 +678,9 @@ $("#button_to_log_out").click(function(e) {
 	}
 	else
 	{
+        $("#guestname").text("Guest");
 		sessionStorage.token="";
-        sessionStorage.username="";
+        sessionStorage.removeItem("username");
         $("#logout_result").text("Logout succesfull!");
 	}
 });
@@ -722,7 +723,9 @@ function deletecorr(delete_id)
 
 $(document).ready(function() {
     var nametoshow = sessionStorage.getItem("username");
-    if(nametoshow != null || nametoshow != '')
+      
+    if(nametoshow != null ){	$("#guestname").text(nametoshow);  }
+ else{ $("#guestname").text("Guest");}
     
    GetExams(); 
   
