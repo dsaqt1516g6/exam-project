@@ -9,4 +9,7 @@ public class CommentDAOQuery
     public final static String GET_COMMENTS = "select hex(s.id) as id, hex(s.user_id) as user_id, s.text, hex(s.exam_id) as exam_id,(SELECT name FROM users WHERE id = s.user_id) as name_creator, s.created_at from comment_exam s where created_at < ? and s.exam_id=unhex(?) order by created_at desc limit 25";
     public final static String GET_COMMENTS_AFTER = "select hex(s.id) as id, hex(s.user_id) as user_id, s.text, hex(s.exam_id) as exam_id,(SELECT name FROM users WHERE id = s.user_id) as name_creator, s.created_at from comment_exam s where created_at > ? and s.exam_id=unhex(?) order by created_at desc limit 25";
 
+    public final static String DELETE_COMMENT = "delete from comment_exam where id=unhex(?)";
+
+
 }

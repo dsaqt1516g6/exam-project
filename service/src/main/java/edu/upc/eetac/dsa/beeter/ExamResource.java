@@ -2,6 +2,8 @@ package edu.upc.eetac.dsa.beeter;
 
 import edu.upc.eetac.dsa.beeter.dao.ExamDAO;
 import edu.upc.eetac.dsa.beeter.dao.ExamDAOImpl;
+import edu.upc.eetac.dsa.beeter.dao.UserDAO;
+import edu.upc.eetac.dsa.beeter.dao.UserDAOImpl;
 import edu.upc.eetac.dsa.beeter.entity.AuthToken;
 import edu.upc.eetac.dsa.beeter.entity.Exam;
 import edu.upc.eetac.dsa.beeter.entity.ExamCollection;
@@ -116,17 +118,30 @@ public class ExamResource
     @Path("/{id}")
     @DELETE
     public void deleteExam(@PathParam("id") String id) {
-        String userid = securityContext.getUserPrincipal().getName();
+        String  userid  = securityContext.getUserPrincipal().getName();
+        UserDAO userDAO = new UserDAOImpl();
         ExamDAO examDAO = new ExamDAOImpl();
         try {
+            String role    = userDAO.getRoleUserById(userid).getRole();
             String ownerid = examDAO.getExamById(id).getUserid();
-            if (!userid.equals(ownerid))
+            if (!this.hasPermissionsToDelete(role)) {
                 throw new ForbiddenException("operation not allowed");
+            }
             if (!examDAO.deleteExam(id))
                 throw new NotFoundException("User with id = " + id + " doesn't exist");
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
+    }
+
+    private boolean hasPermissionsToDelete(String role)
+    {
+        return this.isAdmin(role);
+    }
+
+    private boolean isAdmin(String role)
+    {
+        return role.equals("admin");
     }
 
 }

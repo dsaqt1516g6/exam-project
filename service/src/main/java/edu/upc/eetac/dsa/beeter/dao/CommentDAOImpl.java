@@ -115,5 +115,23 @@ public class CommentDAOImpl implements CommentDAO
         return commentCollection;
     }
 
+    @Override
+    public boolean deleteComment(String id) throws SQLException {
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        try {
+            connection = Database.getConnection();
 
+            stmt = connection.prepareStatement(CommentDAOQuery.DELETE_COMMENT);
+            stmt.setString(1, id);
+
+            int rows = stmt.executeUpdate();
+            return (rows == 1);
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (connection != null) connection.close();
+        }
+    }
 }

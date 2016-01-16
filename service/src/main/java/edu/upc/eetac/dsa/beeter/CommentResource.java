@@ -2,6 +2,8 @@ package edu.upc.eetac.dsa.beeter;
 
 import edu.upc.eetac.dsa.beeter.dao.CommentDAO;
 import edu.upc.eetac.dsa.beeter.dao.CommentDAOImpl;
+import edu.upc.eetac.dsa.beeter.dao.UserDAO;
+import edu.upc.eetac.dsa.beeter.dao.UserDAOImpl;
 import edu.upc.eetac.dsa.beeter.entity.AuthToken;
 import edu.upc.eetac.dsa.beeter.entity.Comment;
 import edu.upc.eetac.dsa.beeter.entity.CommentCollection;
@@ -55,5 +57,35 @@ public class CommentResource
         }
         return commentCollection;
     }
+
+    @Path("/{id}")
+    @DELETE
+    public void deleteExam(@PathParam("id") String id) {
+        String     userid  = securityContext.getUserPrincipal().getName();
+        UserDAO    userDAO = new UserDAOImpl();
+        CommentDAO commentDAO = new CommentDAOImpl();
+        try {
+            String role    = userDAO.getRoleUserById(userid).getRole();
+            String ownerid = commentDAO.getCommentById(id).getUser_id();
+            if (!this.hasPermissionsToDelete(role)) {
+                throw new ForbiddenException("operation not allowed");
+            }
+            if (!commentDAO.deleteComment(id))
+                throw new NotFoundException("User with id = " + id + " doesn't exist");
+        } catch (SQLException e) {
+            throw new InternalServerErrorException();
+        }
+    }
+
+    private boolean hasPermissionsToDelete(String role)
+    {
+        return this.isAdmin(role);
+    }
+
+    private boolean isAdmin(String role)
+    {
+        return role.equals("admin");
+    }
+
 
 }

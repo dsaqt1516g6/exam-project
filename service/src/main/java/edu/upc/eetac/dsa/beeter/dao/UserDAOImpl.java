@@ -223,13 +223,14 @@ public class UserDAOImpl implements UserDAO {
 
             // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
+
             // Procesa los resultados
             if (rs.next()) {
                 user = new User();
-                user.setId(rs.getString("id"));
+                user.setId(rs.getString("userid"));
                 user.setRole(rs.getString("role"));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // Relanza la excepción
             throw e;
         } finally {

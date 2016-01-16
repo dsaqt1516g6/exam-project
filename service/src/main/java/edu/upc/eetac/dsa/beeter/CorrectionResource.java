@@ -36,9 +36,9 @@ public class CorrectionResource
         if (examid == null || text == null || image == null) {
             throw new BadRequestException("all parameters are mandatory");
         }
-        CorrectionDAO correctionDAO   = new CorrectionDAOImpl();
-        Correction correction     = null;
-        AuthToken authToken = null;
+        CorrectionDAO correctionDAO = new CorrectionDAOImpl();
+        Correction    correction    = null;
+        AuthToken     authToken     = null;
         try {
             correction = correctionDAO.createCorrection(securityContext.getUserPrincipal().getName(), examid, text, image);
         } catch (SQLException e) {
@@ -53,11 +53,14 @@ public class CorrectionResource
 
     @GET
     @Produces(BeeterMediaType.BEETER_CORRECTION_COLLECTION)
-    public CorrectionCollection getCorrections(@PathParam("examid") String examid, @QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before) {
+    public CorrectionCollection getCorrections(@PathParam("examid") String examid, @QueryParam("timestamp") long timestamp, @DefaultValue("true") @QueryParam("before") boolean before)
+    {
         CorrectionCollection correctionCollection = null;
-        CorrectionDAO CorrectionDAO = new CorrectionDAOImpl();
+        CorrectionDAO        CorrectionDAO        = new CorrectionDAOImpl();
         try {
-            if (before && timestamp == 0) timestamp = System.currentTimeMillis();
+            if (before && timestamp == 0) {
+                timestamp = System.currentTimeMillis();
+            }
             correctionCollection = CorrectionDAO.getCorrections(examid, timestamp, before);
         } catch (SQLException e) {
             throw new InternalServerErrorException();
@@ -68,15 +71,17 @@ public class CorrectionResource
     @Path("/{id}")
     @GET
     @Produces(BeeterMediaType.BEETER_CORRECTION)
-    public Response getCorrection(@PathParam("id") String id, @Context Request request) {
+    public Response getCorrection(@PathParam("id") String id, @Context Request request)
+    {
         // Create cache-control
-        CacheControl cacheControl = new CacheControl();
-        Correction correction = null;
+        CacheControl  cacheControl  = new CacheControl();
+        Correction    correction    = null;
         CorrectionDAO correctionDAO = new CorrectionDAOImpl();
         try {
             correction = correctionDAO.getCorrectionById(id);
-            if (correction == null)
+            if (correction == null) {
                 throw new NotFoundException("Exam with id = " + id + " doesn't exist");
+            }
 
             // Calculate the ETag on last modified date of user resource
             EntityTag eTag = new EntityTag(Long.toString(correction.getCreated_at()));
@@ -102,20 +107,40 @@ public class CorrectionResource
 
     @Path("/{id}")
     @DELETE
-    public void deleteCorrection(@PathParam("id") String id) {
-        String userid = securityContext.getUserPrincipal().getName();
-        UserDAO userDAO = new UserDAOImpl();
+    public void deleteCorrection(@PathParam("id") String id)
+    {
+        String        userid        = securityContext.getUserPrincipal().getName();
+        UserDAO       userDAO       = new UserDAOImpl();
         CorrectionDAO correctionDAO = new CorrectionDAOImpl();
         try {
+            String role    = userDAO.getRoleUserById(userid).getRole();
             String ownerid = correctionDAO.getCorrectionById(id).getUser_id();
-            String role = userDAO.getRoleUserById(id).getRole();
-            if (!userid.equals(ownerid)|| !role.equals("admin"))
+            if (!this.hasPermissionsToDelete(userid, ownerid, role)) {
                 throw new ForbiddenException("operation not allowed");
-            if (!correctionDAO.deleteCorrection(id))
+            }
+
+            if (!correctionDAO.deleteCorrection(id)) {
                 throw new NotFoundException("User with id = " + id + " doesn't exist");
+            }
         } catch (SQLException e) {
             throw new InternalServerErrorException();
         }
+
+    }
+
+    private boolean hasPermissionsToDelete(String userid, String ownerid, String role)
+    {
+        return this.isAdmin(role) || this.userIsTheCreator(userid, ownerid);
+    }
+
+    private boolean userIsTheCreator(String userid, String ownerid)
+    {
+        return userid.equals(ownerid);
+    }
+
+    private boolean isAdmin(String role)
+    {
+        return role.equals("admin");
     }
 
 }
