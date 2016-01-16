@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<body background="./pics/papers.png">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Site</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+
+</head>
+<body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+               
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+              
+                    
+                   
+               
+                <ul class="nav navbar-nav navbar-right">
+                    <li >
+                        <img src="./pics/examo.png" height="50" width="500"  style="float:left;">
+                    </li>
+                  <li >
+                        <a href="./index.html">Home</a>
+                    </li>
+                    <li >
+                        <a href="./search.html">Search</a>
+                    </li>
+                    <li>
+                        <a href="./repositories.html">Create Exam</a>
+                    </li>
+                    <li>
+                        <a href="./login.html">Login</a>
+                    </li>
+                     <li>
+                        <a href="./about.html">About</a>
+                    </li>
+                     <li>
+                        <a id=guestname >Guest</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <div id="main" class="container">
+        <div class="header">
+    <h3 class="text-muted prj-name">
+        <span class="fa fa-users fa-2x principal-title"></span>
+        Exam
+    </h3>
+  </div>
+
+
+  <div class="jumbotron list-content" style="background: url('./pics/horerada.jpg');background-repeat:repeat;">
+  <br><h3 class="panel-title" align="center" ><strong>User Login</strong> <br> Enter your data</h3></br>
+      <span class="input-group-addon">UserID</span> <input class="form-control" id="name"
+        type="text" placeholder="Your ID..."> <span class="input-group-addon">Password</span> <input
+        class="form-control" id="password" type="password" placeholder="Your password...">
+    
+      <br> <button type="button" class="btn btn-info" id="button_to_log" align="center" >Login</button> </br>
+    <span id="login_result"></span>
+    <br> <button type="button" class="btn btn-info" id="button_to_log_out" style="background-color:red;">Logout</button> </br>
+    <span id="logout_result"></span>
+  </div>
+    
+  
+  <div class="jumbotron list-content" style="background: url('./pics/horerada.jpg');background-repeat:repeat;">
+  <br><h3 class="panel-title" align="center" ><strong>Are you new in our site? Create your user!<br><br>User Creation</strong> <br> Enter new data</h3></br>
+      <span class="input-group-addon">UserID</span> <input class="form-control" id="createname"
+        type="text" placeholder="Create a new ID..."> <span class="input-group-addon">Password</span> <input
+        class="form-control" id="createpassword" type="password" placeholder="Create a password....">
+    
+      <br> <button type="button" class="btn btn-info" id="button_to_create_user" align="center"  >Create new user</button> </br>
+<span id="create_result"></span>
+  </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+
+   
+ <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+<script src="./js/exam.js"></script>
+
+</body>
+</html>
