@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Descartamos cualquier cambio hecho en git
-git add -A
+git add -A :/
 git reset --hard
 
 # Actualizamos en proyecto
