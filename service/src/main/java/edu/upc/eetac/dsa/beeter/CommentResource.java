@@ -68,7 +68,7 @@ public class CommentResource
             String role    = userDAO.getRoleUserById(userid).getRole();
             String ownerid = commentDAO.getCommentById(id).getUser_id();
             if (!this.hasPermissionsToDelete(role)) {
-                throw new ForbiddenException("operation not allowed");
+                throw new ForbiddenException("operationw not allowed");
             }
             if (!commentDAO.deleteComment(id))
                 throw new NotFoundException("User with id = " + id + " doesn't exist");

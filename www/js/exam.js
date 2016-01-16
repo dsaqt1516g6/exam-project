@@ -192,8 +192,13 @@ function GetExam(exam_id) {
                 var _minuto = dcc.getMinutes();
                 var _segundo = dcc.getSeconds(); 
         var index3=index2 +1;
+
+        if (elementExistsById("newcorrection2")) {
            document.getElementById("newcorrection2").style.visibility = "visible";
-        document.getElementById("newcomment").style.visibility = "visible";
+        }
+          if (elementExistsById("newcomment")) {
+            document.getElementById("newcomment").style.visibility = "visible";
+        }
         
          $('<strong> Exam: '+index3+'of '+ list.length +' </strong>  <br>').appendTo($('#searchsubject'));
          $('<strong> Creator: </strong> ' + exam.creator + '<br>').appendTo($('#searchsubject'));
@@ -245,7 +250,12 @@ function GetExams() {
       
         
             }   );
-        if(list.length > 1){document.getElementById("next2").style.visibility = "visible";}
+
+        if(list.length > 1) {
+          if (null != document.getElementById("next2")) {
+            document.getElementById("next2").style.visibility = "visible";
+          }
+        }
         
         GetExam(list[0]);
     }).fail(function(){
@@ -715,6 +725,13 @@ function deletecorr(delete_id)
 	alert("Login as  creator to delete the correction,if you are not the creator you can't delete!");
 	});
 }    
+
+
+
+function elementExistsById(id)
+{
+    return null !== document.getElementById(id);
+}
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 //to load the index list
