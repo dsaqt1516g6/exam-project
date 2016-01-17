@@ -220,7 +220,7 @@ function GetExam(exam_id) {
     }); }
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
-//Get examlist
+//Get examlist for index
 
   var list=[] ;
 
@@ -239,7 +239,7 @@ function GetExams() {
 		dataType : 'json',
         
 	}).done(function(data, status, jqxhr) {
-           if(ifadmin == "admin") { document.getElementById("deleteifadmin").style.visibility = "visible";}
+
   
         
         var bigdata = data.exams;
@@ -257,7 +257,13 @@ function GetExams() {
           }
         }
         
-        GetExam(list[0]);
+        for(i=0; i<3; i++){
+            
+        GetExamIn(list[i]);}
+        
+        
+        
+        
     }).fail(function(){
     $('<strong>No results found</strong><br>').appendTo($('#searchsubject'));
     }); }
@@ -335,6 +341,7 @@ function GetExamSubj(subject_name) {
 function GetComments(exam_id) {
 	var url = API_BASE_URL + '/exam/'+exam_id+'/comment';
         $("#comment").text('');
+    var comprove = sessionStorage.getItem("username");
       
 	$.ajax({
 		url : url,
@@ -359,11 +366,13 @@ function GetComments(exam_id) {
                 var _segundo = dcc.getSeconds(); 
             
         
-        $( '<div class="well"> <div class="row"><div class="col-md-12">Created by: '+comment.creator+'<span class="pull-right">Date of creation:'+ _dia+"-"+_mes+"-"+_anyo +" at "+_hora+":"+_minuto+":"+_segundo+'</span><p>'+comment.text+'</p></div></div>').appendTo($('#comment'));
+        $( '<div class="well"> <div class="row"><div class="col-md-12">Created by: '+comment.creator+'<span class="pull-right">Date of creation:'+ _dia+"-"+_mes+"-"+_anyo +" at "+_hora+":"+_minuto+":"+_segundo+'</span><p>'+comment.text+'</p>').appendTo($('#comment'));
+            
+            
+         if(comprove == "admin" ){      $( '<button class="btn btn-succes" type="button" onclick="deletecom(\''+comment.id+'\');"   style="background-color:red;color:white">Delete comment </button><hr>' ).appendTo($('#comment'));}
         
         
-        
-            }); $('<input type="text" class="form-control" id="commentbox" placeholder="Type your comment...">').appendTo($('#comment')); 
+            }); $('<br><input type="text" class="form-control" id="commentbox" placeholder="Type your comment...">').appendTo($('#comment')); 
     }).fail(function(){
     $('<strong>No comments yet</strong><br>').appendTo($('#comment'));
     }); }
@@ -373,7 +382,7 @@ function GetComments(exam_id) {
 function GetCorrections(exam_id) {
 	var url = API_BASE_URL + '/exam/'+exam_id+'/correction';
         $("#correction").text('');
-       
+       var comprove = sessionStorage.getItem("username");
 	$.ajax({
 		url : url,
 		type : 'GET',
@@ -394,9 +403,9 @@ function GetCorrections(exam_id) {
                 var _segundo = dcc.getSeconds();
         
            
-      $('<br><div class="well"><div class="row"> <div class="cold-md-12"> <h3>Correction created by: '+correction.creator+'. Cretion date:'+_dia+"-"+_mes+"-"+_anyo +" at:  "+_hora+":"+_minuto+":"+_segundo +' </h3><br> <p>'+correction.text+'</p><img src="'+correction.image_correction+'" height="700" width="500"></div><br><h3>This corrections is rated with: '+correction.rating+' likes!</h3><br><h3>Like the correction! Only one like per user! If you are the creator you can delete.</h3><br><button onclick="votePositive(\''+correction.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" id="button_to_vote_pos">Useful correction! :)</button> <button class="btn btn-succes" type="button" onclick="deletecorr(\''+correction.id+'\');"   style="background-color:red;color:white">Delete your correction</button></div>').appendTo($('#correction'));
+      $('<br><div class="well"><div class="row"> <div class="cold-md-12"> <h3>Correction created by: '+correction.creator+'. Cretion date:'+_dia+"-"+_mes+"-"+_anyo +" at:  "+_hora+":"+_minuto+":"+_segundo +' </h3><br> <p>'+correction.text+'</p><img src="'+correction.image_correction+'" height="700" width="500"></div><br><h3>This corrections is rated with: '+correction.rating+' likes!</h3><br><h3>Like the correction! Only one like per user!</h3><br><button onclick="votePositive(\''+correction.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" id="button_to_vote_pos">Useful correction! :)</button>').appendTo($('#correction'));
             
-           
+         if(comprove == "admin" || comprove == correction.creator){  $( '<button class="btn btn-succes" type="button" onclick="deletecorr(\''+correction.id+'\');"   style="background-color:red;color:white">Delete your correction</button></div><br><hr>').appendTo($('#correction')); }  
             } 
                   
    
@@ -637,7 +646,7 @@ function voteNegative(like_id)
 }
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
-//Delete option ony for admin
+//Delete option ony for admin (exams,comments)
 $("#deleteifadmin").click(function(e) {
 	e.preventDefault();
 	
@@ -675,6 +684,35 @@ function deleteExam(delete_id)
 	});
 }    
 
+
+function deletecom(delete_id)
+{
+	 var examid = sessionStorage.getItem("currentexamid");
+	var url = API_BASE_URL + '/exam/'+examid+'/comment/'+delete_id;
+	
+   var tokenauts = sessionStorage.getItem("token");
+    var tokenaut=tokenauts.slice(1,-1);
+    
+    
+   
+    
+    $.ajax({
+		url : url, 
+		type : 'DELETE',
+		crossDomain : true,
+        headers: {'X-Auth-Token' : tokenaut },
+        processData: false,
+        contentType : false,
+        cache: false,    
+	    
+        
+	}).done(function(data, status, jqxhr) {
+        alert("Comment deleted");
+
+  	}).fail(function() {
+	alert("Login as  creator to delete the correction,if you are not the creator you can't delete!");
+	});
+} 
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 //Per fer logout i tal
@@ -744,6 +782,55 @@ $(document).ready(function() {
     if(nametoshow != null ){	$("#guestname").text(nametoshow);  }
  else{ $("#guestname").text("Guest");}
     
-   //GetExams(); 
+   GetExams(); 
   
 });
+
+/*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+//Simplified getexams for index!
+
+
+function GetExamIn(exam_id) {
+	var url = API_BASE_URL + '/exam/' + exam_id;
+        $("#searchsubject2").text('');
+        $("#searchdescription2").text('');
+        $("#searchimage2").text('');
+	$.ajax({
+		url : url,
+		type : 'GET',
+		crossDomain : true,
+		dataType : 'json',
+	}).done(function(data, status, jqxhr) {
+        var exam = data;
+        sessionStorage.currentexamid= exam.id;
+        
+         var dcc =new Date(exam.created_at);
+            var _mes=dcc.getMonth()+1;
+                var _dia=dcc.getDate();
+                var _anyo=dcc.getFullYear();
+                var _hora = dcc.getHours();
+                var _minuto = dcc.getMinutes();
+                var _segundo = dcc.getSeconds(); 
+        var index3=index2 +1;
+
+     
+       
+         $('<strong> Creator: </strong>  ' + exam.creator + '<br> <strong> Creation date: </strong> ' + _dia+"-"+_mes+"-"+_anyo +" at "+_hora+":"+_minuto+":"+_segundo + '<br><strong> Subject: </strong> ' + exam.subject + '<br><strong> Description: </strong> ' + exam.text + '<br> <img src="'+exam.image+'" height="700" width="700"><br> ').appendTo($('#searchsubject2'));
+         
+     
+     
+      
+     
+     
+    }).fail(function(){
+    $('<strong>No results found</strong><br>').appendTo($('#searchsubject2'));
+    }); }
+
+/*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+//Function to show 3 exams on index
+
+
+
+
+
+/*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
