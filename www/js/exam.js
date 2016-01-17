@@ -394,7 +394,7 @@ function GetCorrections(exam_id) {
                 var _segundo = dcc.getSeconds();
         
            
-      $('<br><div class="well"><div class="row"> <div class="cold-md-12"> <h3>Correction created by: '+correction.creator+'. Cretion date:'+_dia+"-"+_mes+"-"+_anyo +" at:  "+_hora+":"+_minuto+":"+_segundo +' </h3><br> <p>'+correction.text+'</p><img src="'+correction.image_correction+'" height="700" width="500"></div><br><h3>This corrections is rated with: '+correction.rating+' likes!</h3><br><h3>Rate the correction! Only one rating per user!</h3><br><button onclick="votePositive(\''+correction.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" id="button_to_vote_pos">Useful correction! :)</button> <button class="btn btn-succes" type="button" onclick="voteNegative(\''+correction.id+'\');"   style="background-color:red;color:white">Negative rating :(</button></div><br><button class="btn btn-succes" type="button" onclick="deletecorr(\''+correction.id+'\');"   style="background-color:red;color:white">Delete your correction</button></div>').appendTo($('#correction'));
+      $('<br><div class="well"><div class="row"> <div class="cold-md-12"> <h3>Correction created by: '+correction.creator+'. Cretion date:'+_dia+"-"+_mes+"-"+_anyo +" at:  "+_hora+":"+_minuto+":"+_segundo +' </h3><br> <p>'+correction.text+'</p><img src="'+correction.image_correction+'" height="700" width="500"></div><br><h3>This corrections is rated with: '+correction.rating+' likes!</h3><br><h3>Like the correction! Only one like per user! If you are the creator you can delete.</h3><br><button onclick="votePositive(\''+correction.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" id="button_to_vote_pos">Useful correction! :)</button> <button class="btn btn-succes" type="button" onclick="deletecorr(\''+correction.id+'\');"   style="background-color:red;color:white">Delete your correction</button></div>').appendTo($('#correction'));
             
            
             } 
@@ -744,6 +744,6 @@ $(document).ready(function() {
     if(nametoshow != null ){	$("#guestname").text(nametoshow);  }
  else{ $("#guestname").text("Guest");}
     
-   GetExams(); 
+   //GetExams(); 
   
 });
