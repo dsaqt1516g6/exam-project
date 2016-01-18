@@ -42,5 +42,9 @@
   {
     "path": "(?i)exam/subject/([a-zA-Z_0-9 %]{0,100})?" ,
     "methods": ["GET"]
+  },
+  {
+    "path": "(?i)subject" ,
+    "methods": ["GET"]
   }
 ]
