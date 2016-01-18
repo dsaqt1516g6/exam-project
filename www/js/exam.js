@@ -126,6 +126,7 @@ function createxam(exam)
     formData.append('subject',exam.subject);
     formData.append('text',exam.text); 
     formData.append('image',exam.image);
+     var subjectx =(exam.subject).toString();
     
     $.ajax({
 		url : url, 
@@ -142,6 +143,8 @@ function createxam(exam)
     }}
         
 	}).done(function(data, status, jqxhr) {
+       
+        PostSubjects(subjectx);
         $("#create_result").text("Exam created!");
 
   	}).fail(function() {
@@ -860,8 +863,9 @@ function GetExamIn(exam_id) {
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 
 function GetExamTwo(exam_id) {
-
- 
+    
+ var ifadmin=sessionStorage.getItem("username");
+ if(ifadmin == "admin" ) { document.getElementById("deleteifadmin").style.visibility = "visible";}
 	var url = API_BASE_URL + '/exam/' + exam_id;
         $("#searchsubject").text('');
         $("#searchdescription").text('');
@@ -914,3 +918,94 @@ function GetExamTwo(exam_id) {
 
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+//To get the subjects used! And to post the new ones...
+
+var subjectlist = [];
+
+$("#button_to_suggest").click(function(e) {
+	e.preventDefault();
+
+    var comprove = sessionStorage.getItem("username");
+    if(comprove == null || comprove == "" ){$("#list_result").text("You need to login to see the list!");}
+    else{
+	GetSubjects();
+    }
+
+
+	
+});
+
+
+
+
+function GetSubjects() {
+    subjectlist=[];
+     var tokenauts = sessionStorage.getItem("token");
+    var tokenaut=tokenauts.slice(1,-1);
+    
+	var url = API_BASE_URL + '/subject/' ;
+        $("#list_result").text('');
+       
+	$.ajax({
+		url : url,
+		type : 'GET',
+		crossDomain : true,
+		dataType : 'json',
+         headers: {'X-Auth-Token' : tokenaut },
+        processData: false,
+        contentType : false,
+        cache: false,  
+        
+	}).done(function(data, status, jqxhr){
+            
+       var list_sub = data.subjects;
+        
+        $.each(list_sub, function(i, h) {
+					var subject = h;
+       subjectlist.push(subject.name);
+ }); 
+ var arr = $.unique(subjectlist);
+  
+  
+    i=0;
+    for(i=0;i<arr.length;i++){ $('<strong> -' + arr[i] +' </strong>  <br>').appendTo($('#list_result')); }
+      
+   
+    
+               }).fail(function(){
+    $('<strong>No subjects yet!</strong><br>').appendTo($('#list_result'));
+    }); 
+            }
+
+
+    
+
+
+function PostSubjects(subject)
+{
+	
+var url = API_BASE_URL + '/subject/' ;
+	
+   var tokenauts = sessionStorage.getItem("token");
+    var tokenaut=tokenauts.slice(1,-1);
+    
+    
+ 
+  
+    
+    $.ajax({
+		url : url, 
+		type : 'POST',
+		crossDomain : true,
+        headers: {'X-Auth-Token' : tokenaut },
+        cache: false,    
+	    data : {name: subject},
+   
+        
+	}).done(function(data, status, jqxhr) {
+        
+
+  	}).fail(function() {
+	
+	});
+} 
