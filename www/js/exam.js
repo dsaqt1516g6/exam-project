@@ -158,6 +158,7 @@ $("#butsearch").click(function(e) {
 	e.preventDefault();
     var id= $("#search-field").val();
     var ifadmin=sessionStorage.getItem("username");
+    $("#list_result").html("");
 	if($("#search-field").val() == "")
 	{
 			$("#searcherror").text("Write all your data!");
@@ -277,6 +278,7 @@ function GetExams() {
 
 $("#butsearchsub").click(function(e) {
 	e.preventDefault();
+     $("#list_result").text('');
     document.getElementById("prev").style.visibility = "hidden";
     var subject_name= $("#search-field").val();
 	if($("#search-field").val() == "")
