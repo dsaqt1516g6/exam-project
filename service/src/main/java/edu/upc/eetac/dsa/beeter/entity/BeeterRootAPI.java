@@ -8,9 +8,7 @@ import org.glassfish.jersey.linking.InjectLinks;
 import javax.ws.rs.core.Link;
 import java.util.List;
 
-/**
- * Created by sergio on 14/09/15.
- */
+
 public class BeeterRootAPI {
     @InjectLinks({
             @InjectLink(resource = BeeterRootAPIResource.class, style = InjectLink.Style.ABSOLUTE, rel = "self bookmark home", title = "Beeter Root API"),

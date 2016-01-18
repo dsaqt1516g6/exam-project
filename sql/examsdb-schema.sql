@@ -39,8 +39,9 @@ CREATE TABLE course (
 CREATE TABLE subject (
   id BINARY(16) NOT NULL,
   name VARCHAR(100) NOT NULL,
-  career_id BINARY(16) NOT NULL,
-  course_id BINARY(16) NOT NULL,
+  career_id BINARY(16),
+  course_id BINARY(16),
+  created_at TIMESTAMP NOT NULL default current_timestamp,
   FOREIGN KEY (career_id) REFERENCES career (id)
     ON DELETE CASCADE,
   FOREIGN KEY (course_id) REFERENCES course (id)

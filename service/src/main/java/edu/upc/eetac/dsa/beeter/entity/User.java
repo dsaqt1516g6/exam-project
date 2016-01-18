@@ -13,9 +13,7 @@ import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-/**
- * Created by sergio on 7/09/15.
- */
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
    @InjectLinks({
