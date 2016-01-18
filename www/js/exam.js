@@ -372,7 +372,7 @@ function GetComments(exam_id) {
          if(comprove == "admin" ){      $( '<button class="btn btn-succes" type="button" onclick="deletecom(\''+comment.id+'\');"   style="background-color:red;color:white">Delete comment </button><hr>' ).appendTo($('#comment'));}
         
         
-            }); $('<br><input type="text" class="form-control" id="commentbox" placeholder="Type your comment...">').appendTo($('#comment')); 
+            }); $('<br><input type="text" class="form-control" id="commentbox" placeholder="Type your comment...remeber you can use <br> to change lines!">').appendTo($('#comment')); 
     }).fail(function(){
     $('<strong>No comments yet</strong><br>').appendTo($('#comment'));
     }); }
@@ -403,7 +403,9 @@ function GetCorrections(exam_id) {
                 var _segundo = dcc.getSeconds();
         
            
-      $('<br><div class="well"><div class="row"> <div class="cold-md-12"> <h3>Correction created by: '+correction.creator+'. Cretion date:'+_dia+"-"+_mes+"-"+_anyo +" at:  "+_hora+":"+_minuto+":"+_segundo +' </h3><br> <p>'+correction.text+'</p><img src="'+correction.image_correction+'" height="700" width="500"></div><br><h3>This corrections is rated with: '+correction.rating+' likes!</h3><br><h3>Like the correction! Only one like per user!</h3><br><button onclick="votePositive(\''+correction.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" id="button_to_vote_pos">Useful correction! :)</button>').appendTo($('#correction'));
+      $('<br><div class="well"><div class="row"> <div class="cold-md-12"> <h3>Correction created by: '+correction.creator+'. Cretion date:'+_dia+"-"+_mes+"-"+_anyo +" at:  "+_hora+":"+_minuto+":"+_segundo +' </h3><br> <p>'+correction.text+'</p><img src="'+correction.image_correction+'" height="700" width="500"></div><br><h3>This corrections is rated with: '+correction.rating+' likes!</h3><br>').appendTo($('#correction'));
+            
+            if( comprove != null){  $('<h3>Like the correction! Only one like per user!</h3><br><button onclick="votePositive(\''+correction.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" id="button_to_vote_pos">Useful correction! :)</button>').appendTo($('#correction'));}
             
          if(comprove == "admin" || comprove == correction.creator){  $( '<button class="btn btn-succes" type="button" onclick="deletecorr(\''+correction.id+'\');"   style="background-color:red;color:white">Delete your correction</button></div><br><hr>').appendTo($('#correction')); }  
             } 
@@ -779,8 +781,11 @@ function elementExistsById(id)
 $(document).ready(function() {
     var nametoshow = sessionStorage.getItem("username");
       
-    if(nametoshow != null ){	$("#guestname").text(nametoshow);  }
- else{ $("#guestname").text("Guest");}
+    if(nametoshow != null ){	$("#guestname").text(nametoshow); $("#logbut").text("Logout");  }
+ else{ $("#guestname").text("Guest");
+     
+     $("#logbut").text("Login");
+     }
     
    GetExams(); 
   
@@ -815,7 +820,7 @@ function GetExamIn(exam_id) {
 
      
        
-         $('<strong> Creator: </strong>  ' + exam.creator + '<br> <strong> Creation date: </strong> ' + _dia+"-"+_mes+"-"+_anyo +" at "+_hora+":"+_minuto+":"+_segundo + '<br><strong> Subject: </strong> ' + exam.subject + '<br><strong> Description: </strong> ' + exam.text + '<br> <img src="'+exam.image+'" height="700" width="700"><br> ').appendTo($('#searchsubject2'));
+         $('<strong> Creator: </strong>  ' + exam.creator + '<br> <strong> Creation date: </strong> ' + _dia+"-"+_mes+"-"+_anyo +" at "+_hora+":"+_minuto+":"+_segundo + '<br><strong> Subject: </strong> ' + exam.subject + '<br><strong> Description: </strong> ' + exam.text + '<br> <img src="'+exam.image+'" height="700" width="700"><br><button onclick="loadconcrete(\''+exam.id+'\');" class="btn btn-succes" type="button"   style="background-color:green;color:white" >See more!</button><hr> ').appendTo($('#searchsubject2'));
          
      
      
@@ -827,7 +832,9 @@ function GetExamIn(exam_id) {
     }); }
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
-//Function to show 3 exams on index
+//Function to show 3 exams on index and more detail
+var iftouch =0;
+ function loadconcrete(exam_id){};
 
 
 
