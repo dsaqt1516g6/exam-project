@@ -776,7 +776,11 @@ function elementExistsById(id)
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 //to load the index list
 
-
+//readyyyyyy
+//readyyyyyy
+//readyyyyyy
+//readyyyyyy
+//readyyyyyy
 
 $(document).ready(function() {
     var nametoshow = sessionStorage.getItem("username");
@@ -788,6 +792,11 @@ $(document).ready(function() {
      }
     
    GetExams(); 
+    var laila2 = sessionStorage.getItem("laila");
+   
+    if(laila2 == 1) {
+    
+   GetExamTwo(sessionStorage.getItem("loadindex"));}
   
 });
 
@@ -807,7 +816,7 @@ function GetExamIn(exam_id) {
 		dataType : 'json',
 	}).done(function(data, status, jqxhr) {
         var exam = data;
-        sessionStorage.currentexamid= exam.id;
+        
         
          var dcc =new Date(exam.created_at);
             var _mes=dcc.getMonth()+1;
@@ -833,11 +842,75 @@ function GetExamIn(exam_id) {
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
 //Function to show 3 exams on index and more detail
-var iftouch =0;
- function loadconcrete(exam_id){};
+
+ function loadconcrete(exam_id){
+  sessionStorage.laila= 1;
+     
+  sessionStorage.loadindex=exam_id;
+     sessionStorage.currentexamid=exam_id;
+      window.location.assign("search.html")
+     
+     
+ };
 
 
 
+
+
+/*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
+
+function GetExamTwo(exam_id) {
+
+ 
+	var url = API_BASE_URL + '/exam/' + exam_id;
+        $("#searchsubject").text('');
+        $("#searchdescription").text('');
+        $("#searchimage").text('');
+	$.ajax({
+		url : url,
+		type : 'GET',
+		crossDomain : true,
+		dataType : 'json',
+	}).done(function(data, status, jqxhr) {
+        var exam = data;
+        
+        
+         var dcc =new Date(exam.created_at);
+            var _mes=dcc.getMonth()+1;
+                var _dia=dcc.getDate();
+                var _anyo=dcc.getFullYear();
+                var _hora = dcc.getHours();
+                var _minuto = dcc.getMinutes();
+                var _segundo = dcc.getSeconds(); 
+        var index3=index2 +1;
+
+        if (elementExistsById("newcorrection2")) {
+           document.getElementById("newcorrection2").style.visibility = "visible";
+        }
+          if (elementExistsById("newcomment")) {
+            document.getElementById("newcomment").style.visibility = "visible";
+        }
+        
+         
+         $('<strong> Creator: </strong> ' + exam.creator + '<br>').appendTo($('#searchsubject'));
+         $('<strong> Creation date: </strong> ' + _dia+"-"+_mes+"-"+_anyo +" at "+_hora+":"+_minuto+":"+_segundo + '<br>').appendTo($('#searchsubject'));
+        $('<strong> Subject: </strong> ' + exam.subject + '<br>').appendTo($('#searchsubject'));
+        $('<strong> Description: </strong> ' + exam.text + '<br>').appendTo($('#searchdescription'));
+      
+         $("#image").attr("src",exam.image );
+        $('#image').width(700); 
+        $('#image').height(700);
+        $("#image").click(function() {
+   $(this).attr('width', '1000');
+    $(this).attr('height', '1400');
+});
+        GetComments(exam_id);
+        GetCorrections(exam_id);
+            sessionStorage.laila=0;
+           sessionStorage.loadindex='';
+    }).fail(function(){
+    $('<strong>No results found</strong><br>').appendTo($('#searchsubject'));
+    }); }
 
 
 /*oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo*/
